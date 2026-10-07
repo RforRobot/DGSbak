@@ -557,7 +557,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 */
 	@Override
 	public EReference getTestCase_Body() {
-		return (EReference)testCaseEClass.getEStructuralFeatures().get(0);
+		return (EReference)testCaseEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -567,7 +567,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 */
 	@Override
 	public EReference getTestCase_Parameters() {
-		return (EReference)testCaseEClass.getEStructuralFeatures().get(1);
+		return (EReference)testCaseEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -577,7 +577,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 */
 	@Override
 	public EReference getTestCase_Instances() {
-		return (EReference)testCaseEClass.getEStructuralFeatures().get(2);
+		return (EReference)testCaseEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -907,7 +907,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 */
 	@Override
 	public EReference getWaitStatement_Condition() {
-		return (EReference)waitStatementEClass.getEStructuralFeatures().get(0);
+		return (EReference)waitStatementEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -917,7 +917,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 */
 	@Override
 	public EReference getWaitStatement_Seconds() {
-		return (EReference)waitStatementEClass.getEStructuralFeatures().get(1);
+		return (EReference)waitStatementEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1167,7 +1167,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 */
 	@Override
 	public EReference getForEachStatement_Body() {
-		return (EReference)forEachStatementEClass.getEStructuralFeatures().get(0);
+		return (EReference)forEachStatementEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -1187,7 +1187,7 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 	 */
 	@Override
 	public EReference getForEachStatement_Item() {
-		return (EReference)forEachStatementEClass.getEStructuralFeatures().get(2);
+		return (EReference)forEachStatementEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -1252,9 +1252,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		createEReference(operationEClass, OPERATION__BODY);
 
 		testCaseEClass = createEClass(TEST_CASE);
-		createEReference(testCaseEClass, TEST_CASE__BODY);
 		createEReference(testCaseEClass, TEST_CASE__PARAMETERS);
 		createEReference(testCaseEClass, TEST_CASE__INSTANCES);
+		createEReference(testCaseEClass, TEST_CASE__BODY);
 
 		testCaseInstanceEClass = createEClass(TEST_CASE_INSTANCE);
 		createEReference(testCaseInstanceEClass, TEST_CASE_INSTANCE__ARGUMENTS);
@@ -1302,8 +1302,8 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		createEReference(printStatementEClass, PRINT_STATEMENT__VALUES);
 
 		waitStatementEClass = createEClass(WAIT_STATEMENT);
-		createEReference(waitStatementEClass, WAIT_STATEMENT__CONDITION);
 		createEReference(waitStatementEClass, WAIT_STATEMENT__SECONDS);
+		createEReference(waitStatementEClass, WAIT_STATEMENT__CONDITION);
 
 		assertStatementEClass = createEClass(ASSERT_STATEMENT);
 		createEReference(assertStatementEClass, ASSERT_STATEMENT__CONDITION);
@@ -1342,9 +1342,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		createEAttribute(booleanExpressionEClass, BOOLEAN_EXPRESSION__VALUE);
 
 		forEachStatementEClass = createEClass(FOR_EACH_STATEMENT);
-		createEReference(forEachStatementEClass, FOR_EACH_STATEMENT__BODY);
-		createEReference(forEachStatementEClass, FOR_EACH_STATEMENT__ITEMS);
 		createEReference(forEachStatementEClass, FOR_EACH_STATEMENT__ITEM);
+		createEReference(forEachStatementEClass, FOR_EACH_STATEMENT__ITEMS);
+		createEReference(forEachStatementEClass, FOR_EACH_STATEMENT__BODY);
 
 		// Create enums
 		typeEEnum = createEEnum(TYPE);
@@ -1437,9 +1437,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEReference(getOperation_Body(), this.getBlockStatement(), null, "body", null, 1, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(testCaseEClass, TestCase.class, "TestCase", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTestCase_Body(), this.getBlockStatement(), null, "body", null, 1, 1, TestCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTestCase_Parameters(), this.getVariable(), null, "parameters", null, 0, -1, TestCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getTestCase_Instances(), this.getTestCaseInstance(), null, "instances", null, 0, -1, TestCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getTestCase_Body(), this.getBlockStatement(), null, "body", null, 1, 1, TestCase.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(testCaseInstanceEClass, TestCaseInstance.class, "TestCaseInstance", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getTestCaseInstance_Arguments(), this.getExpression(), null, "arguments", null, 0, -1, TestCaseInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1487,8 +1487,8 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEReference(getPrintStatement_Values(), this.getExpression(), null, "values", null, 0, -1, PrintStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(waitStatementEClass, WaitStatement.class, "WaitStatement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getWaitStatement_Condition(), this.getExpression(), null, "condition", null, 0, 1, WaitStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getWaitStatement_Seconds(), this.getExpression(), null, "seconds", null, 0, 1, WaitStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getWaitStatement_Condition(), this.getExpression(), null, "condition", null, 0, 1, WaitStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(assertStatementEClass, AssertStatement.class, "AssertStatement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAssertStatement_Condition(), this.getExpression(), null, "condition", null, 0, 1, AssertStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1527,9 +1527,9 @@ public class ModelPackageImpl extends EPackageImpl implements ModelPackage {
 		initEAttribute(getBooleanExpression_Value(), theEcorePackage.getEBoolean(), "value", null, 0, 1, BooleanExpression.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(forEachStatementEClass, ForEachStatement.class, "ForEachStatement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getForEachStatement_Body(), this.getBlockStatement(), null, "body", null, 1, 1, ForEachStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getForEachStatement_Items(), this.getExpression(), null, "items", null, 1, 1, ForEachStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getForEachStatement_Item(), this.getVariable(), null, "item", null, 1, 1, ForEachStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getForEachStatement_Items(), this.getExpression(), null, "items", null, 1, 1, ForEachStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getForEachStatement_Body(), this.getBlockStatement(), null, "body", null, 1, 1, ForEachStatement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(typeEEnum, Type.class, "Type");

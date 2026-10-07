@@ -47,9 +47,9 @@ class Operation extends Declaration
 // Ezt a TestParams bővítmény UML alapján kiegészítettem
 class TestCase extends Declaration
 {
-    contains BlockStatement[1] body    // az alap UML szerint 1..1 kapcsolat
-    contains Variable[] parameters
+	contains Variable[] parameters
     contains TestCaseInstance[] instances 
+    contains BlockStatement[1] body		// az alap UML szerint 1..1 kapcsolat
 }
 
 // TestParams
@@ -137,8 +137,8 @@ class PrintStatement extends Statement
 
 class WaitStatement extends Statement
 {
-    contains Expression condition
     contains Expression seconds
+    contains Expression condition
 }
 
 class AssertStatement extends Statement
@@ -214,8 +214,8 @@ class BooleanExpression extends SimpleExpression
 
 class ForEachStatement extends Statement
 {
-    contains BlockStatement[1] body
+	contains Variable[1] item
     contains Expression[1] items
-    contains Variable[1] item
+    contains BlockStatement[1] body
 }
 

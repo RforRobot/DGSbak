@@ -3,6 +3,7 @@ package webtest.dsl.validation;
 import java.util.HashSet;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.validation.CheckType;
 import org.eclipse.xtext.validation.EValidatorRegistrar;
@@ -60,7 +61,7 @@ class NameValidator extends AbstractWebTestDslValidator {
 	}
 
 	@Check(CheckType.NORMAL)
-	public void checkDuplicateOperationsInPage(Page page) {
+	public void checkDuplicateNamesInPage(Page page) {
 		try {
 			var operationNames = new HashSet<String>();
 
@@ -97,20 +98,6 @@ class NameValidator extends AbstractWebTestDslValidator {
 				}
 			}
 
-			// vars (benne a param nevekkel, mert az is ütközés)
-			var varNames = new HashSet<String>(paramNames);
-
-			if (op.getBody() != null) {
-				for (var statement : op.getBody().getStatements()) {
-					if (statement instanceof VariableStatement varStmt) {
-						var variable = varStmt.getVariable();
-						if (variable != null && variable.getName() != null && !varNames.add(variable.getName())) {
-							error("Variable '" + variable.getName() + "' is already defined.", variable,
-									ModelPackage.Literals.NAMED_ELEMENT__NAME);
-						}
-					}
-				}
-			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -118,133 +105,15 @@ class NameValidator extends AbstractWebTestDslValidator {
 
 	@Check(CheckType.NORMAL)
 	public void checkOperationCallArguments(CallStatement call) {
-		var op = call.getOperation();
-
-		if (op != null && !op.eIsProxy()) {
-            int paramCount = op.getParameters().size();
-            int argCount = call.getArguments().size();
-            if (paramCount != argCount) {
-                error("Operation '" + op.getName() + "' has " + paramCount
-                        + " parameters but " + argCount + " arguments were specified.",
-                        call, ModelPackage.Literals.CALL_STATEMENT__OPERATION);
-            }
-        }
-	}
-	
-	
-	
-	// TOCHECK local var stuff
-	@Check(CheckType.NORMAL)
-    public void checkDuplicateVariableStatement(VariableStatement varStmt) {
-        Variable variable = varStmt.getVariable();
-        if (variable == null || variable.getName() == null) {
-            return;
-        }
-
-        String varName = variable.getName();
-
-        // 1. Collides with an outer/enclosing scope declaration
-        for (EObject curr = varStmt.eContainer(); curr != null; curr = curr.eContainer()) {
-            // Check hiding operation parameters
-            if (curr instanceof Operation op) {
-                for (var param : op.getParameters()) {
-                    if (varName.equals(param.getName())) {
-                        error("Variable '" + varName + "' is already defined.",
-                                variable, ModelPackage.Literals.NAMED_ELEMENT__NAME);
-                        return;
-                    }
-                }
-                break;
-            }
-
-            // Check hiding test case parameters
-            if (curr instanceof TestCase tc) {
-                for (var param : tc.getParameters()) {
-                    if (varName.equals(param.getName())) {
-                        error("Variable '" + varName + "' is already defined.",
-                                variable, ModelPackage.Literals.NAMED_ELEMENT__NAME);
-                        return;
-                    }
-                }
-                break;
-            }
-
-            // Check hiding enclosing foreach iterator variable
-            if (curr instanceof ForEachStatement fe) {
-                if (fe.getItem() != null && varName.equals(fe.getItem().getName())) {
-                    error("Variable '" + varName + "' is already defined.",
-                            variable, ModelPackage.Literals.NAMED_ELEMENT__NAME);
-                    return;
-                }
-            }
-
-            // Check previous local variables in an enclosing BlockStatement
-            if (curr instanceof webtest.model.BlockStatement block) {
-                for (var s : block.getStatements()) {
-                    if (s == varStmt) {
-                        break;
-                    }
-                    if (s instanceof VariableStatement prevVarStmt) {
-                        Variable prevVar = prevVarStmt.getVariable();
-                        if (prevVar != null && varName.equals(prevVar.getName())) {
-                            error("Variable '" + varName + "' is already defined.",
-                                    variable, ModelPackage.Literals.NAMED_ELEMENT__NAME);
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-    }
-	
-	
-	
-	
-	
-	
-	//TestParams
-	@Check(CheckType.NORMAL)
-    public void checkTestCaseParameters(TestCase testCase) {
-		var names = new HashSet<String>();
-        for (var param : testCase.getParameters()) {
-            if (param.getName() != null && !names.add(param.getName())) {
-                error("Parameter '" + param.getName() + "' is already defined.",
-                        param, ModelPackage.Literals.NAMED_ELEMENT__NAME);
-            }
-        }
-    }
-	
-	@Check(CheckType.NORMAL)
-    public void checkTestCaseInstanceArguments(TestCaseInstance instance) {
-        if (instance.eContainer() instanceof TestCase testCase) {
-            int paramCount = testCase.getParameters().size();
-            int argCount = instance.getArguments().size();
-            if (paramCount != argCount) {
-                error("Test case '" + testCase.getName() + "' has " + paramCount
-                        + " parameters but " + argCount + " arguments were specified.",
-                        instance, ModelPackage.Literals.TEST_CASE_INSTANCE__ARGUMENTS);
-            }
-        }
-    }
-	
-	// ForEach // TODO
-	@Check(CheckType.NORMAL)
-	public void checkDuplicateNamesInForEach(ForEachStatement forE) {
 		try {
+			var op = call.getOperation();
 
-			var varNames = new HashSet<String>();
-			var iterator = forE.getItem().getName();
-			varNames.add(iterator);
-
-			if (forE.getBody() != null) {
-				for (var statement : forE.getBody().getStatements()) {
-					if (statement instanceof VariableStatement varStmt) {
-						var variable = varStmt.getVariable();
-						if (variable != null && variable.getName() != null && !varNames.add(variable.getName())) {
-							error("Variable '" + variable.getName() + "' is already defined.", variable,
-									ModelPackage.Literals.NAMED_ELEMENT__NAME);
-						}
-					}
+			if (op != null && !op.eIsProxy()) {
+				int paramCount = op.getParameters().size();
+				int argCount = call.getArguments().size();
+				if (paramCount != argCount) {
+					error("Operation '" + op.getName() + "' has " + paramCount + " parameters but " + argCount
+							+ " arguments were specified.", call, ModelPackage.Literals.CALL_STATEMENT__OPERATION);
 				}
 			}
 		} catch (Exception ex) {
@@ -252,4 +121,123 @@ class NameValidator extends AbstractWebTestDslValidator {
 		}
 	}
 
+	@Check(CheckType.NORMAL)
+	public void checkDuplicateVariableStatement(VariableStatement varStmt) {
+		try {
+			checkVariableShadowing(varStmt.getVariable(), varStmt);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	// TestParams
+	@Check(CheckType.NORMAL)
+	public void checkTestCaseParameters(TestCase testCase) {
+		var names = new HashSet<String>();
+		for (var param : testCase.getParameters()) {
+			if (param.getName() != null && !names.add(param.getName())) {
+				error("Parameter '" + param.getName() + "' is already defined.", param,
+						ModelPackage.Literals.NAMED_ELEMENT__NAME);
+			}
+		}
+	}
+
+	@Check(CheckType.NORMAL)
+	public void checkTestCaseInstanceArguments(TestCaseInstance instance) {
+		if (instance.eContainer() instanceof TestCase testCase) {
+			int paramCount = testCase.getParameters().size();
+			int argCount = instance.getArguments().size();
+			if (paramCount != argCount) {
+				error("Test case '" + testCase.getName() + "' has " + paramCount + " parameters but " + argCount
+						+ " arguments were specified.", instance, ModelPackage.Literals.TEST_CASE_INSTANCE__ARGUMENTS);
+			}
+		}
+	}
+
+	@Check(CheckType.NORMAL)
+	public void checkForEachVariable(ForEachStatement forE) {
+		try {
+			checkVariableShadowing(forE.getItem(), forE);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	// helper function mert a ForeachStatement és a VariableStatement változójából
+	// ugyanúgy megyünk felfelé
+	private void checkVariableShadowing(Variable targetVar, EObject contextNode) {
+		if (targetVar == null || targetVar.getName() == null) {
+			return;
+		}
+
+		String varName = targetVar.getName();
+
+		for (EObject curr = contextNode.eContainer(); curr != null; curr = curr.eContainer()) {
+			if (curr instanceof Operation op) {
+				for (var param : op.getParameters()) {
+					if (varName.equals(param.getName())) {
+						error("Variable '" + varName + "' is already defined.", targetVar,
+								ModelPackage.Literals.NAMED_ELEMENT__NAME);
+						return;
+					}
+				}
+			}
+
+			if (curr instanceof TestCase tc) {
+				for (var param : tc.getParameters()) {
+					if (varName.equals(param.getName())) {
+						error("Variable '" + varName + "' is already defined.", targetVar,
+								ModelPackage.Literals.NAMED_ELEMENT__NAME);
+						return;
+					}
+				}
+			}
+
+			if (curr instanceof ForEachStatement outerFe) {
+				if (outerFe.getItem() != null && varName.equals(outerFe.getItem().getName())) {
+					error("Variable '" + varName + "' is already defined.", targetVar,
+							ModelPackage.Literals.NAMED_ELEMENT__NAME);
+					return;
+				}
+			}
+
+			if (curr instanceof webtest.model.BlockStatement block) {
+				for (var s : block.getStatements()) {
+					if (s == contextNode || EcoreUtil.isAncestor(s, contextNode)) {
+						break;
+					}
+					if (s instanceof VariableStatement prevVarStmt) {
+						Variable prevVar = prevVarStmt.getVariable();
+						if (prevVar != null && varName.equals(prevVar.getName())) {
+							error("Variable '" + varName + "' is already defined.", targetVar,
+									ModelPackage.Literals.NAMED_ELEMENT__NAME);
+							return;
+						}
+					}
+				}
+			}
+
+			if (curr instanceof Page page) {
+				for (var pageVar : page.getVariables()) {
+					if (varName.equals(pageVar.getName())) {
+						error("Variable '" + varName + "' is already defined.", targetVar,
+								ModelPackage.Literals.NAMED_ELEMENT__NAME);
+						return;
+					}
+				}
+			}
+
+			if (curr instanceof Main main) {
+				for (var decl : main.getDeclarations()) {
+					if (decl instanceof Variable globalVar) {
+						if (varName.equals(globalVar.getName())) {
+							error("Variable '" + varName + "' is already defined.", targetVar,
+									ModelPackage.Literals.NAMED_ELEMENT__NAME);
+							return;
+						}
+					}
+				}
+			}
+		}
+	}
 }

@@ -31,24 +31,14 @@ import webtest.model.Variable;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link webtest.model.impl.TestCaseImpl#getBody <em>Body</em>}</li>
  *   <li>{@link webtest.model.impl.TestCaseImpl#getParameters <em>Parameters</em>}</li>
  *   <li>{@link webtest.model.impl.TestCaseImpl#getInstances <em>Instances</em>}</li>
+ *   <li>{@link webtest.model.impl.TestCaseImpl#getBody <em>Body</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class TestCaseImpl extends DeclarationImpl implements TestCase {
-	/**
-	 * The cached value of the '{@link #getBody() <em>Body</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getBody()
-	 * @generated
-	 * @ordered
-	 */
-	protected BlockStatement body;
-
 	/**
 	 * The cached value of the '{@link #getParameters() <em>Parameters</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -68,6 +58,16 @@ public class TestCaseImpl extends DeclarationImpl implements TestCase {
 	 * @ordered
 	 */
 	protected EList<TestCaseInstance> instances;
+
+	/**
+	 * The cached value of the '{@link #getBody() <em>Body</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getBody()
+	 * @generated
+	 * @ordered
+	 */
+	protected BlockStatement body;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -167,12 +167,12 @@ public class TestCaseImpl extends DeclarationImpl implements TestCase {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ModelPackage.TEST_CASE__BODY:
-				return basicSetBody(null, msgs);
 			case ModelPackage.TEST_CASE__PARAMETERS:
 				return ((InternalEList<?>)getParameters()).basicRemove(otherEnd, msgs);
 			case ModelPackage.TEST_CASE__INSTANCES:
 				return ((InternalEList<?>)getInstances()).basicRemove(otherEnd, msgs);
+			case ModelPackage.TEST_CASE__BODY:
+				return basicSetBody(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -185,12 +185,12 @@ public class TestCaseImpl extends DeclarationImpl implements TestCase {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ModelPackage.TEST_CASE__BODY:
-				return getBody();
 			case ModelPackage.TEST_CASE__PARAMETERS:
 				return getParameters();
 			case ModelPackage.TEST_CASE__INSTANCES:
 				return getInstances();
+			case ModelPackage.TEST_CASE__BODY:
+				return getBody();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -204,9 +204,6 @@ public class TestCaseImpl extends DeclarationImpl implements TestCase {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ModelPackage.TEST_CASE__BODY:
-				setBody((BlockStatement)newValue);
-				return;
 			case ModelPackage.TEST_CASE__PARAMETERS:
 				getParameters().clear();
 				getParameters().addAll((Collection<? extends Variable>)newValue);
@@ -214,6 +211,9 @@ public class TestCaseImpl extends DeclarationImpl implements TestCase {
 			case ModelPackage.TEST_CASE__INSTANCES:
 				getInstances().clear();
 				getInstances().addAll((Collection<? extends TestCaseInstance>)newValue);
+				return;
+			case ModelPackage.TEST_CASE__BODY:
+				setBody((BlockStatement)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -227,14 +227,14 @@ public class TestCaseImpl extends DeclarationImpl implements TestCase {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ModelPackage.TEST_CASE__BODY:
-				setBody((BlockStatement)null);
-				return;
 			case ModelPackage.TEST_CASE__PARAMETERS:
 				getParameters().clear();
 				return;
 			case ModelPackage.TEST_CASE__INSTANCES:
 				getInstances().clear();
+				return;
+			case ModelPackage.TEST_CASE__BODY:
+				setBody((BlockStatement)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -248,12 +248,12 @@ public class TestCaseImpl extends DeclarationImpl implements TestCase {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ModelPackage.TEST_CASE__BODY:
-				return body != null;
 			case ModelPackage.TEST_CASE__PARAMETERS:
 				return parameters != null && !parameters.isEmpty();
 			case ModelPackage.TEST_CASE__INSTANCES:
 				return instances != null && !instances.isEmpty();
+			case ModelPackage.TEST_CASE__BODY:
+				return body != null;
 		}
 		return super.eIsSet(featureID);
 	}

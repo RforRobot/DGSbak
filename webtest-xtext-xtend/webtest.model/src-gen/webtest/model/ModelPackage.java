@@ -371,22 +371,13 @@ public interface ModelPackage extends EPackage {
 	int TEST_CASE__NAME = DECLARATION__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Body</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TEST_CASE__BODY = DECLARATION_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Parameters</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_CASE__PARAMETERS = DECLARATION_FEATURE_COUNT + 1;
+	int TEST_CASE__PARAMETERS = DECLARATION_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Instances</b></em>' containment reference list.
@@ -395,7 +386,16 @@ public interface ModelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TEST_CASE__INSTANCES = DECLARATION_FEATURE_COUNT + 2;
+	int TEST_CASE__INSTANCES = DECLARATION_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Body</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TEST_CASE__BODY = DECLARATION_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Test Case</em>' class.
@@ -998,22 +998,22 @@ public interface ModelPackage extends EPackage {
 	int WAIT_STATEMENT = 21;
 
 	/**
-	 * The feature id for the '<em><b>Condition</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int WAIT_STATEMENT__CONDITION = STATEMENT_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Seconds</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int WAIT_STATEMENT__SECONDS = STATEMENT_FEATURE_COUNT + 1;
+	int WAIT_STATEMENT__SECONDS = STATEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Condition</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int WAIT_STATEMENT__CONDITION = STATEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Wait Statement</em>' class.
@@ -1660,13 +1660,13 @@ public interface ModelPackage extends EPackage {
 	int FOR_EACH_STATEMENT = 35;
 
 	/**
-	 * The feature id for the '<em><b>Body</b></em>' containment reference.
+	 * The feature id for the '<em><b>Item</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FOR_EACH_STATEMENT__BODY = STATEMENT_FEATURE_COUNT + 0;
+	int FOR_EACH_STATEMENT__ITEM = STATEMENT_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Items</b></em>' containment reference.
@@ -1678,13 +1678,13 @@ public interface ModelPackage extends EPackage {
 	int FOR_EACH_STATEMENT__ITEMS = STATEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Item</b></em>' containment reference.
+	 * The feature id for the '<em><b>Body</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int FOR_EACH_STATEMENT__ITEM = STATEMENT_FEATURE_COUNT + 2;
+	int FOR_EACH_STATEMENT__BODY = STATEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>For Each Statement</em>' class.

@@ -13,9 +13,9 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link webtest.model.TestCase#getBody <em>Body</em>}</li>
  *   <li>{@link webtest.model.TestCase#getParameters <em>Parameters</em>}</li>
  *   <li>{@link webtest.model.TestCase#getInstances <em>Instances</em>}</li>
+ *   <li>{@link webtest.model.TestCase#getBody <em>Body</em>}</li>
  * </ul>
  *
  * @see webtest.model.ModelPackage#getTestCase()

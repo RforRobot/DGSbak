@@ -54,17 +54,12 @@ public class WebTestDslScopeProvider extends AbstractWebTestDslScopeProvider {
 				var context = (ContextStatement) container;
 				if (context.getPage() != null)
 					scope = Scopes.scopeFor(context.getPage().getOperations(), scope);
-			}
-
-			if (container instanceof Page) {
+			} else if (container instanceof Page) {
 				var page = (Page) container;
 				scope = Scopes.scopeFor(page.getOperations(), scope);
-			}
-
-			if (container instanceof Main) {
+			} else if (container instanceof Main) {
 				var main = (Main) container;
-				var globalOps = main.getDeclarations().stream()
-						.filter(Operation.class::isInstance)
+				var globalOps = main.getDeclarations().stream().filter(Operation.class::isInstance)
 						.map(Operation.class::cast).toList();
 				scope = Scopes.scopeFor(globalOps, scope);
 			}
@@ -75,6 +70,21 @@ public class WebTestDslScopeProvider extends AbstractWebTestDslScopeProvider {
 
 		if (ref == ModelPackage.Literals.VARIABLE_EXPRESSION__VARIABLE) {
 
+			if (container instanceof Statement stmt) {
+				if (stmt.eContainer() instanceof BlockStatement block) {
+					var candidates = new ArrayList<Variable>();
+					var index = block.getStatements().indexOf(stmt);
+					for (var i = 0; i < index; i++) {
+						var prevStmt = block.getStatements().get(i);
+						if (prevStmt instanceof VariableStatement) {
+							var varStmt = (VariableStatement) prevStmt;
+							candidates.add(varStmt.getVariable());
+						}
+					}
+					scope = Scopes.scopeFor(candidates, scope);
+				}
+			}
+			
 			if (container instanceof ContextStatement context) {
 				if (context.getPage() != null) {
 					var candidates = context.getPage().getVariables();
@@ -91,22 +101,6 @@ public class WebTestDslScopeProvider extends AbstractWebTestDslScopeProvider {
 			} else if (container instanceof TestCase testCase) {
 				if (EcoreUtil.isAncestor(testCase.getBody(), obj)) {
 					scope = Scopes.scopeFor(testCase.getParameters(), scope);
-				}
-			}
-
-			if (container instanceof Statement stmt) {
-				if (stmt.eContainer() instanceof BlockStatement) {
-					var candidates = new ArrayList<Variable>();
-					var block = (BlockStatement) stmt.eContainer();
-					var index = block.getStatements().indexOf(stmt);
-					for (var i = 0; i < index; i++) {
-						var prevStmt = block.getStatements().get(i);
-						if (prevStmt instanceof VariableStatement) {
-							var varStmt = (VariableStatement) prevStmt;
-							candidates.add(varStmt.getVariable());
-						}
-					}
-					scope = Scopes.scopeFor(candidates, scope);
 				}
 			}
 		}

@@ -24,23 +24,23 @@ import webtest.model.Variable;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link webtest.model.impl.ForEachStatementImpl#getBody <em>Body</em>}</li>
- *   <li>{@link webtest.model.impl.ForEachStatementImpl#getItems <em>Items</em>}</li>
  *   <li>{@link webtest.model.impl.ForEachStatementImpl#getItem <em>Item</em>}</li>
+ *   <li>{@link webtest.model.impl.ForEachStatementImpl#getItems <em>Items</em>}</li>
+ *   <li>{@link webtest.model.impl.ForEachStatementImpl#getBody <em>Body</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class ForEachStatementImpl extends StatementImpl implements ForEachStatement {
 	/**
-	 * The cached value of the '{@link #getBody() <em>Body</em>}' containment reference.
+	 * The cached value of the '{@link #getItem() <em>Item</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getBody()
+	 * @see #getItem()
 	 * @generated
 	 * @ordered
 	 */
-	protected BlockStatement body;
+	protected Variable item;
 
 	/**
 	 * The cached value of the '{@link #getItems() <em>Items</em>}' containment reference.
@@ -53,14 +53,14 @@ public class ForEachStatementImpl extends StatementImpl implements ForEachStatem
 	protected Expression items;
 
 	/**
-	 * The cached value of the '{@link #getItem() <em>Item</em>}' containment reference.
+	 * The cached value of the '{@link #getBody() <em>Body</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getItem()
+	 * @see #getBody()
 	 * @generated
 	 * @ordered
 	 */
-	protected Variable item;
+	protected BlockStatement body;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -224,12 +224,12 @@ public class ForEachStatementImpl extends StatementImpl implements ForEachStatem
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ModelPackage.FOR_EACH_STATEMENT__BODY:
-				return basicSetBody(null, msgs);
-			case ModelPackage.FOR_EACH_STATEMENT__ITEMS:
-				return basicSetItems(null, msgs);
 			case ModelPackage.FOR_EACH_STATEMENT__ITEM:
 				return basicSetItem(null, msgs);
+			case ModelPackage.FOR_EACH_STATEMENT__ITEMS:
+				return basicSetItems(null, msgs);
+			case ModelPackage.FOR_EACH_STATEMENT__BODY:
+				return basicSetBody(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -242,12 +242,12 @@ public class ForEachStatementImpl extends StatementImpl implements ForEachStatem
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ModelPackage.FOR_EACH_STATEMENT__BODY:
-				return getBody();
-			case ModelPackage.FOR_EACH_STATEMENT__ITEMS:
-				return getItems();
 			case ModelPackage.FOR_EACH_STATEMENT__ITEM:
 				return getItem();
+			case ModelPackage.FOR_EACH_STATEMENT__ITEMS:
+				return getItems();
+			case ModelPackage.FOR_EACH_STATEMENT__BODY:
+				return getBody();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -260,14 +260,14 @@ public class ForEachStatementImpl extends StatementImpl implements ForEachStatem
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ModelPackage.FOR_EACH_STATEMENT__BODY:
-				setBody((BlockStatement)newValue);
+			case ModelPackage.FOR_EACH_STATEMENT__ITEM:
+				setItem((Variable)newValue);
 				return;
 			case ModelPackage.FOR_EACH_STATEMENT__ITEMS:
 				setItems((Expression)newValue);
 				return;
-			case ModelPackage.FOR_EACH_STATEMENT__ITEM:
-				setItem((Variable)newValue);
+			case ModelPackage.FOR_EACH_STATEMENT__BODY:
+				setBody((BlockStatement)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -281,14 +281,14 @@ public class ForEachStatementImpl extends StatementImpl implements ForEachStatem
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ModelPackage.FOR_EACH_STATEMENT__BODY:
-				setBody((BlockStatement)null);
+			case ModelPackage.FOR_EACH_STATEMENT__ITEM:
+				setItem((Variable)null);
 				return;
 			case ModelPackage.FOR_EACH_STATEMENT__ITEMS:
 				setItems((Expression)null);
 				return;
-			case ModelPackage.FOR_EACH_STATEMENT__ITEM:
-				setItem((Variable)null);
+			case ModelPackage.FOR_EACH_STATEMENT__BODY:
+				setBody((BlockStatement)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -302,12 +302,12 @@ public class ForEachStatementImpl extends StatementImpl implements ForEachStatem
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ModelPackage.FOR_EACH_STATEMENT__BODY:
-				return body != null;
-			case ModelPackage.FOR_EACH_STATEMENT__ITEMS:
-				return items != null;
 			case ModelPackage.FOR_EACH_STATEMENT__ITEM:
 				return item != null;
+			case ModelPackage.FOR_EACH_STATEMENT__ITEMS:
+				return items != null;
+			case ModelPackage.FOR_EACH_STATEMENT__BODY:
+				return body != null;
 		}
 		return super.eIsSet(featureID);
 	}

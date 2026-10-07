@@ -12,8 +12,8 @@ package webtest.model;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link webtest.model.WaitStatement#getCondition <em>Condition</em>}</li>
  *   <li>{@link webtest.model.WaitStatement#getSeconds <em>Seconds</em>}</li>
+ *   <li>{@link webtest.model.WaitStatement#getCondition <em>Condition</em>}</li>
  * </ul>
  *
  * @see webtest.model.ModelPackage#getWaitStatement()

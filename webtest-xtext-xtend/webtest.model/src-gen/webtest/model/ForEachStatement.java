@@ -12,9 +12,9 @@ package webtest.model;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link webtest.model.ForEachStatement#getBody <em>Body</em>}</li>
- *   <li>{@link webtest.model.ForEachStatement#getItems <em>Items</em>}</li>
  *   <li>{@link webtest.model.ForEachStatement#getItem <em>Item</em>}</li>
+ *   <li>{@link webtest.model.ForEachStatement#getItems <em>Items</em>}</li>
+ *   <li>{@link webtest.model.ForEachStatement#getBody <em>Body</em>}</li>
  * </ul>
  *
  * @see webtest.model.ModelPackage#getForEachStatement()
