@@ -1,0 +1,10 @@
+webtest example.SearchTest
+
+operation search(string text)
+  fill input "q" with text
+  click button "Search"
+end
+
+open "https://duckduckgo.com/"
+search using "jwst"
+wait 2 seconds

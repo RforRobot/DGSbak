@@ -1,0 +1,221 @@
+@GenModel(modelDirectory="webtest.model/src-gen", forceOverwrite="true", updateClasspath="false", complianceLevel="21.0")
+package webtest.model
+
+enum Type
+{
+    UNDEFINED,
+    STRING,
+    INTEGER,
+    BOOLEAN,
+    ELEMENT
+}
+
+class Main
+{
+    String[] testClass
+    contains Declaration[] declarations
+    contains BlockStatement[1] body    // az alap UML szerint 1..1 kapcsolat
+}
+
+abstract class NamedElement
+{
+    String name
+}
+
+abstract class Declaration extends NamedElement
+{
+}
+
+class Variable extends NamedElement
+{
+    Type ^type
+    contains Expression value
+}
+
+class Page extends Declaration
+{
+    contains Variable[] variables
+    contains Operation[] operations
+}
+
+class Operation extends Declaration
+{
+    contains Variable[] parameters
+    contains BlockStatement[1] body    // az alap UML szerint 1..1 kapcsolat
+}
+
+// Ezt a TestParams bővítmény UML alapján kiegészítettem
+class TestCase extends Declaration
+{
+    contains BlockStatement[1] body    // az alap UML szerint 1..1 kapcsolat
+    contains Variable[] parameters
+    contains TestCaseInstance[] instances 
+}
+
+// TestParams
+class TestCaseInstance
+{
+    contains Expression[] arguments
+}
+
+abstract class Expression
+{
+	 Type ^type                        // bonyolultabb kif. alapján
+} 
+
+abstract class Statement
+{
+}
+
+class BlockStatement extends Statement
+{
+    contains Statement[] statements    
+}
+
+// vezérlés
+
+class IfStatement extends Statement
+{
+    contains BlockStatement[1] then
+    contains BlockStatement ^else
+    contains Expression[1] condition
+}
+
+class WhileStatement extends Statement
+{
+    contains BlockStatement[1] body
+    contains Expression[1] condition
+}
+
+class VariableStatement extends Statement
+{
+    contains Variable[1] variable    
+}
+
+// HTML utasítások
+
+class OpenStatement extends Statement
+{
+    contains Expression[1] url
+}
+
+abstract class ElementStatement extends Statement
+{
+    contains Expression element
+}
+
+
+class FillStatement extends ElementStatement
+{
+	contains Expression[1] value
+}
+
+class ClickStatement extends ElementStatement
+{
+}
+
+class ContextStatement extends ElementStatement
+{
+	contains BlockStatement[1] body
+	refers Page page
+	    
+}
+
+// egyéb általános
+
+class CallStatement extends Statement
+{
+    refers Operation operation
+    contains Expression[] arguments
+}
+
+
+class PrintStatement extends Statement
+{
+    contains Expression[] values
+}
+
+class WaitStatement extends Statement
+{
+    contains Expression condition
+    contains Expression seconds
+}
+
+class AssertStatement extends Statement
+{
+    contains Expression condition
+}
+
+
+// bonyolultabb kifejezések
+
+
+abstract class BinaryExpression extends Expression
+{
+	contains Expression[1] left
+	contains Expression[1] right 
+}
+
+class IsExpression extends BinaryExpression
+{
+}
+
+class ContainsExpression extends BinaryExpression
+{
+}
+
+abstract class UnaryExpression extends Expression
+{
+	contains Expression[1] operand 
+}
+
+class ExistsExpression extends UnaryExpression
+{
+}
+
+class NotExpression extends UnaryExpression
+{
+}
+
+abstract class SimpleExpression extends Expression
+{
+}
+
+// egyszerűbb kifejezések
+
+class ElementExpression extends SimpleExpression
+{
+	String tag
+	String label
+}
+
+class VariableExpression extends SimpleExpression
+{
+    refers Variable[1] variable    
+}
+
+
+class StringExpression extends SimpleExpression
+{
+	String value
+}
+
+class IntegerExpression extends SimpleExpression
+{
+	int value
+}
+
+class BooleanExpression extends SimpleExpression
+{
+	boolean value
+}
+
+// ForEach
+
+class ForEachStatement extends Statement
+{
+    contains BlockStatement[1] body
+    contains Expression[1] items
+    contains Variable[1] item
+}
+

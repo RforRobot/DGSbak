@@ -1,0 +1,43 @@
+webtest myTest
+
+page myEmail
+    element usernameBox = input "username"
+    element passwordBox = input "password"
+
+    element login = button "login"
+    element register = button "register"
+
+    operation register
+        click button "register"
+    end
+end
+
+// standalone op (scope nélkül csak így tudom meghívni tesztből)
+operation login(string username, string password)
+    fill input "username" with "username"
+    fill input "password" with "password"
+    wait 3 seconds
+    print "Haha, incorrect password"
+end
+
+
+test logMeIn(string username, string password)
+with "myUser", "myPass"
+with "myUser", "myForgottenPass"
+    open "https://example.com/login"
+
+    context as myEmail
+        login using username, password
+    end
+end
+
+
+test newsAddict
+	open "https://hirek.hu"
+    
+    element newsItems = ol "Hírek"
+    
+    foreach item in newsItems
+     	click item
+    end
+end

@@ -1,0 +1,138 @@
+grammar webtest.dsl.WebTestDsl with org.eclipse.xtext.common.Terminals
+
+import "webtest.model"
+
+Main:
+	'webtest' testClass+=ID ('.' testClass+=ID)*
+	declarations+=Declaration*
+	body=BlockStatement
+;
+
+// Alap szabályok. 'statement'-ek, kifejezések külön
+NamedElement:
+    Declaration | Variable;
+    
+Variable:
+    type=Type name=ID ('=' value=Expression)?;
+
+enum Type:
+    UNDEFINED='undefined' |
+    STRING='string' |
+    INTEGER='integer' |
+    BOOLEAN='boolean' |
+    ELEMENT='element';
+
+Declaration: Page | Operation | TestCase;
+
+// WebTest
+Page:
+    'page' name=ID
+        (variables+=Variable)*
+        (operations+=Operation)*
+    'end';
+    
+Operation: 
+	'operation' name=ID ('(' parameters+=Variable (',' parameters+=Variable)* ')')?
+		body=BlockStatement
+	'end';
+
+TestCase:
+    'test' name=ID ('(' parameters+=Variable (',' parameters+=Variable)* ')')?
+        (instances+=TestCaseInstance)*
+        body=BlockStatement
+    'end';
+// Testparams
+TestCaseInstance:
+    'with' arguments+=Expression (',' arguments+=Expression)*;
+    
+// Utasítások
+BlockStatement:
+    {BlockStatement}
+    (statements+=Statement)*;
+
+Statement:
+    VariableStatement
+    | IfStatement
+    | WhileStatement
+    | CallStatement
+    | OpenStatement
+    | ElementStatement
+    | PrintStatement
+    | AssertStatement
+    | WaitStatement
+    | ForEachStatement;
+    
+VariableStatement: variable=Variable;
+    
+IfStatement:
+	'if' condition=Expression 'then'
+		then=BlockStatement
+	('else'
+		else=BlockStatement
+	)?
+	'end';
+
+WhileStatement:
+	'while' condition=Expression 'do'
+		body=BlockStatement
+	'end';
+	
+CallStatement:
+	operation=[Operation] ('using' arguments+=Expression (',' arguments+=Expression)*)?;
+	
+OpenStatement:
+	'open' url=Expression;
+	
+ElementStatement:
+    FillStatement | ClickStatement | ContextStatement;
+	
+FillStatement:
+	'fill' element=Expression 'with' value=Expression;
+
+ClickStatement:
+	'click' element=Expression;
+
+ContextStatement returns ContextStatement:
+    'context' (
+        (element=Expression ('as' page=[Page])?)
+        | ('as' page=[Page])
+    )
+    body=BlockStatement
+    'end';
+	
+PrintStatement:
+	'print' values+=Expression (',' values+=Expression)*;
+
+AssertStatement:
+	'assert' condition=Expression;
+	
+WaitStatement:
+	'wait' (
+		seconds=Expression 'seconds' ('until' condition=Expression)? |
+		'until' condition=Expression
+		)
+	;
+
+// Foreach
+ForEachStatement:
+	'foreach' item=IteratorVariable 'in' items=Expression
+		body=BlockStatement
+	'end';
+
+IteratorVariable returns Variable:
+    name=ID;
+
+// Kifejezések (alapból meg voltak adva)
+Expression: NotExpression;
+NotExpression returns Expression: {NotExpression} 'not' operand=ConditionalExpression | ConditionalExpression;
+ConditionalExpression returns Expression: IsExpression | ContainsExpression | ExistsExpression | SimpleExpression;
+IsExpression: left=ReferenceExpression 'is' right=SimpleExpression;
+ContainsExpression: left=ReferenceExpression 'contains' right=SimpleExpression;
+ExistsExpression: operand=ReferenceExpression 'exists';
+SimpleExpression returns Expression: ReferenceExpression | StringExpression | IntegerExpression | BooleanExpression;
+ReferenceExpression returns SimpleExpression: ElementExpression | VariableExpression;
+ElementExpression: tag=ID label=STRING;
+VariableExpression: variable=[Variable];
+StringExpression: value=STRING;
+IntegerExpression: value=INT;
+BooleanExpression: value?='true' | {BooleanExpression} 'false';

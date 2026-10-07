@@ -1,0 +1,32 @@
+webtest example.ManualTest
+
+operation Click(element e)
+  // if you don't have to implement the Capture extension, remove the following line:
+  capture e
+  click e
+end
+
+operation Fill(element e, string text)
+  fill e with text
+  // if you don't have to implement the Capture extension, remove the following line:
+  capture e
+end
+
+manual LetMeSearchThatForYou
+  print "<h1>How to search</h1>"
+  string url = "https://duckduckgo.com/"
+  print "<p>Open the page <b>", url, "</b> in a browser:</p>"
+  open url 
+  // if you don't have to implement the Capture extension, remove the following line:
+  capture page
+  string searchText = "jwst"
+  print "<p>Type <b>",searchText,"</b> into the search field:</p>"
+  Fill using input "q", searchText
+  element searchButton = button "Search"
+  print "<p>Finally, click the <b>",searchButton,"</b> button:</p>"
+  Click using searchButton
+  wait 2 seconds
+  print "<p>And now you can see the search results:</p>"
+  // if you don't have to implement the Capture extension, remove the following line:
+  capture page
+end
